@@ -27,7 +27,7 @@ function leaf_position(za,zi,canopy_para) % ÊäÈë ÆÂÃæÆÂ¶È ÆÂ¶ÈµÄ·½Î»½Ç ÑùµØÖĞÃ¿Ö
 % 11Õı·½ĞÎÑùµØÃæ»ı      x      x    ...  x     µ¥Î»£ºm^2
 
 %% ¶ÁÈë²ÎÊı¾ØÕó
-tmp=strcat('.\Model_input\',canopy_para); % ¹¹½¨ÎÄ¼şÂ·¾¶×Ö·û´®tmp£¬½«ÎÄ¼şÂ·¾¶Ö¸¶¨Îªµ±Ç°Ä¿Â¼ÏÂµÄModel_inputÎÄ¼ş¼Ğ£¬¸½¼Ócanopy_para×÷ÎªÎÄ¼şÃû
+tmp=strcat('.\Test\',canopy_para); % ¹¹½¨ÎÄ¼şÂ·¾¶×Ö·û´®tmp£¬½«ÎÄ¼şÂ·¾¶Ö¸¶¨Îªµ±Ç°Ä¿Â¼ÏÂµÄModel_inputÎÄ¼ş¼Ğ£¬¸½¼Ócanopy_para×÷ÎªÎÄ¼şÃû
 canopy_para = load(tmp); % ¼ÓÔØcanopy_paraµÄMATÎÄ¼ş ½«ÄÚÈİ´æ´¢ÔÚcanopy_para±äÁ¿ÖĞ loadº¯ÊıÓÃÓÚ¼ÓÔØMATÎÄ¼ş£¬²¢½«ÆäÄÚÈİ¸³¸øÖ¸¶¨µÄ±äÁ¿¡£
 canopy_para=canopy_para.canopy_para;
 
@@ -60,27 +60,28 @@ if leaf_c~=num % Èç¹û¼ÆËã³öÀ´µÄÒ¶Æ¬ÊıºÍ¸ø¶¨µÄÃ¿¿ÃÊ÷µÄÒ¶Æ¬ÊıÁ¿²»Í¬£¬Ôò°ÑÒ¶Æ¬Æ½¾ù·
     msgbox('Error input in plot_leaf! code 2');
 end
 
-sn = -sview(za,zi); % sview ÊÇÒ»¸öÎ´¶¨ÒåµÄº¯Êı »ñÈ¡ÆÂÃæ·¨ÏòÁ¿
+% »ñÈ¡ÆÂÃæ·¨ÏòÁ¿
+sn = -sview(za,zi);
+
 center = []; 
-for i=1:size_crown(2) % Ñ­»·Ã¿¸öÊ÷¹Ú
+for i=1:size_crown(2) % Ñ­»·Ã¿¸öÊ÷¹Ú 2ÊÇÁĞµÄ´óĞ¡
     
     % Éú³É°ë¾¶ÎªrµÄÇòÄÚ¾ùÔÈ·Ö²¼Êı¾İµã ref:https://wenku.baidu.com/view/2a4bda55f142336c1eb91a37f111f18583d00cd8.html?_wkts_=1688288190053&bdQuery=%E5%9C%A8%E4%B8%80%E4%B8%AA%E7%90%83%E5%86%85%E5%9D%87%E5%8C%80%E5%88%86%E5%B8%83%E7%9A%84%E7%82%B9+matlab
-    angle1=rand(1,canopy_para(5,i))*2*pi;
-    angle2=acos(rand(1,canopy_para(5,i))*2-1);
-    r=power(rand(1,canopy_para(5,i)),1/3).*canopy_para(6,i);
-    x=r.*cos(angle1).*sin(angle2);
-    y=r.*sin(angle1).*sin(angle2);
-    z=r.*cos(angle2);
+    angle1 = rand(1,canopy_para(5,i))*2*pi;
+    angle2 = acos(rand(1,canopy_para(5,i))*2-1);
+    r = power(rand(1,canopy_para(5,i)),1/3).*canopy_para(6,i);
+    x = r.*cos(angle1).*sin(angle2);
+    y = r.*sin(angle1).*sin(angle2);
+    z = r.*cos(angle2); % Éú³ÉÃ¿¿ÃÊ÷¹ÚÖĞÒ¶Æ¬µÄËæ»úÎ»ÖÃ °üÀ¨Ëæ»úµÄ½Ç¶Èangle1ºÍangle2 ÒÔ¼°¼ÆËãÒ¶Æ¬µÄÈıÎ¬×ø±ê
     %     figure
     %     plot3(x,y,z,'r.');
     %     axis square
 
-    pos=[canopy_para(2,i),canopy_para(3,i),0]; % ¶ÁÈëµÄµÚi¿ÃÊ÷Ê÷¹ÚÖĞĞÄÔÚÑùµØÖĞµÄxyz×ø±ê
-    tree_pos=leaf_position_z_height(sn,pos,edge); % Ã¿¿ÃÊ÷Ê÷¸ùÔÚÆÂÃæÉÏµÄxyz×ø±ê
+    pos = [canopy_para(2,i),canopy_para(3,i),0]; % ¶ÁÈëµÄµÚi¿ÃÊ÷Ê÷¹ÚÖĞĞÄÔÚÑùµØÖĞµÄxyz×ø±ê
+    tree_pos = leaf_position_tree_pos(sn,pos,edge); % Ã¿¿ÃÊ÷Ê÷¸ùÔÚÆÂÃæÉÏµÄxyz×ø±ê
     lc=[x',y',z']; % crown_leaf_center(canopy_para(5,i),canopy_para(6,i),canopy_para(7,i),canopy_para(8,i),canopy_para(9,i),canopy_para(4,i)); % µÚi¿ÃÊ÷ËùÓĞÒ¶Æ¬ÒÔ[0,0,0]Îª±ê×¼µÄÒ¶Æ¬Î»ÖÃ
     lc_new=[lc(:,1)+tree_pos(:,1) lc(:,2)+tree_pos(:,2) lc(:,3)+tree_pos(:,3)+canopy_para(7,i)+0.5*canopy_para(8,i)];
-    center=[center;lc_new]; % °ÑÒ»¿ÃÊ÷ËùÓĞÒ¶Æ¬ÖĞĞÄµã×ø±ê¼Óµ½¹Ú²ãÖĞ
-    
+    center=[center;lc_new]; % °ÑÒ»¿ÃÊ÷ËùÓĞÒ¶Æ¬ÖĞĞÄµã×ø±ê¼Óµ½¹Ú²ãÖĞ ½«Ã¿¿ÃÊ÷Ò¶Æ¬µÄÏà¶Ô×ø±êlcÓëÊ÷¸ùµÄ×ø±êÏà¼Ó µÃµ½Ã¿¸öÒ¶Æ¬µÄ¾ø¶Ô×ø±êlc_new È»ºó½«ËüÃÇÌí¼Óµ½centerÖĞ
 end
 
 % plot3(coord(:,1),coord(:,2),coord(:,3),'ko')
@@ -88,10 +89,10 @@ end
 % grid on
 
 %% ÕÒµ½¹Ú²ãÖĞ×î¸ßµÄÒ»¿ÃÊ÷µÄ¸ß¶È
-maxh=max(canopy_para(7,:)+canopy_para(8,:));
+maxH=max(canopy_para(7,:)+canopy_para(8,:));
 
 %% ÕÒµ½¹Ú²ãÖĞ×îµÍµÄÖ¦ÏÂ¸ß
-minh=min(canopy_para(7,:));
+minH=min(canopy_para(7,:));
 
 %% ±£´æ½á¹û!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-save('crown_L3_leafmat.mat','center','maxh','minh','shadow','square');
+save('crown_L3_leafmat.mat','center','maxH','minH','shadow','square');
