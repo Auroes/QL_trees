@@ -2,10 +2,7 @@
 function tree_pos = leaf_position_tree_pos(sn,pos,edge) %坡面的法向量 树冠中心在样地中的xyz坐标 正方形样方边长(垂直视)
 
 % 坡面中心过(0,0,0)时样地4角点的xyz坐标
-pCorner=[[ edge/2, edge/2,-(sn(1)*( edge/2) +sn(2)*( edge/2))/sn(3)];...
-         [-edge/2, edge/2,-(sn(1)*(-edge/2) +sn(2)*( edge/2))/sn(3)];...
-         [ edge/2,-edge/2,-(sn(1)*( edge/2) +sn(2)*(-edge/2))/sn(3)];...
-         [-edge/2,-edge/2,-(sn(1)*(-edge/2) +sn(2)*(-edge/2))/sn(3)]];
+pCorner = squareCorner(sn,edge);
 
 % 4个角点的z坐标最小值作为整个坡面上升的距离
 [min_z, pos_min_z]=min(pCorner(:,3)); %min函数返回最小值以及对应的行号 从1开始计数

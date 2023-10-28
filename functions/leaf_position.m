@@ -1,7 +1,7 @@
 % ¸ù¾İÊ÷¹ÚÎ»ÖÃ²úÉúÑù·½(º¬ÆÂÃæ)ËùÓĞÊ÷µÄÒ¶Æ¬Î»ÖÃ
 % [center,maxH,minH,shadow,square]=leaf_position(0,0,'canopy_L9.mat');
 
-function leaf_position(za,zi,canopy_para) % ÊäÈë ÆÂÃæÆÂ¶È ÆÂ¶ÈµÄ·½Î»½Ç ÑùµØÖĞÃ¿ÖêÊ÷µÄ²ÎÊı¾ØÕó
+function [center,pCorner,edge] = leaf_position(za,zi,canopy_para) % ÊäÈë ÆÂÃæÆÂ¶È ÆÂ¶ÈµÄ·½Î»½Ç ÑùµØÖĞÃ¿ÖêÊ÷µÄ²ÎÊı¾ØÕóµÄÎÄ¼şÃû
 
 % center      ¹Ú²ãÖĞÃ¿¸öÒ¶Æ¬µÄÖĞĞÄ×ø±ê£¬Êä³öÊ±ÒÔ(0,0)ÎªÑùµØµÄxy×ø±êÖĞĞÄ
 % maxH        ¹Ú²ãÖĞ×î¸ßµÄÒ»¿ÃÊ÷µÄ¸ß¶È
@@ -27,7 +27,7 @@ function leaf_position(za,zi,canopy_para) % ÊäÈë ÆÂÃæÆÂ¶È ÆÂ¶ÈµÄ·½Î»½Ç ÑùµØÖĞÃ¿Ö
 % 11Õı·½ĞÎÑùµØÃæ»ı      x      x    ...  x     µ¥Î»£ºm^2
 
 %% ¶ÁÈë²ÎÊı¾ØÕó
-tmp=strcat('.\Test\',canopy_para); % ¹¹½¨ÎÄ¼şÂ·¾¶×Ö·û´®tmp£¬½«ÎÄ¼şÂ·¾¶Ö¸¶¨Îªµ±Ç°Ä¿Â¼ÏÂµÄModel_inputÎÄ¼ş¼Ğ£¬¸½¼Ócanopy_para×÷ÎªÎÄ¼şÃû
+tmp=strcat('.\forestModel\',canopy_para); % ¹¹½¨ÎÄ¼şÂ·¾¶×Ö·û´®tmp£¬½«ÎÄ¼şÂ·¾¶Ö¸¶¨Îªµ±Ç°Ä¿Â¼ÏÂµÄforestModelÎÄ¼ş¼Ğ£¬¸½¼Ócanopy_para×÷ÎªÎÄ¼şÃû
 canopy_para = load(tmp); % ¼ÓÔØcanopy_paraµÄMATÎÄ¼ş ½«ÄÚÈİ´æ´¢ÔÚcanopy_para±äÁ¿ÖĞ loadº¯ÊıÓÃÓÚ¼ÓÔØMATÎÄ¼ş£¬²¢½«ÆäÄÚÈİ¸³¸øÖ¸¶¨µÄ±äÁ¿¡£
 canopy_para=canopy_para.canopy_para;
 
@@ -39,7 +39,7 @@ square = canopy_para(11,1);
 num = sum(canopy_para(5,:));
 
 % Õı·½ĞÎÏñÔª±ß³¤
-edge = square^0.5; 
+edge = square^0.5;
 
 % ¼ì²éÃ¿¿ÃÊ÷µÄxy×ø±êÊÇ·ñ¶¼ÔÚÑùµØÄÚ ¾ù²»´óÓÚ±ß³¤
 tmp_find = find(canopy_para(2,:)>edge | canopy_para(3,:)>edge); %#ok<EFIND>
@@ -63,9 +63,9 @@ end
 % »ñÈ¡ÆÂÃæ·¨ÏòÁ¿
 sn = -sview(za,zi);
 
-center = []; 
+center = [];
 for i=1:size_crown(2) % Ñ­»·Ã¿¸öÊ÷¹Ú 2ÊÇÁĞµÄ´óĞ¡
-    
+
     % Éú³É°ë¾¶ÎªrµÄÇòÄÚ¾ùÔÈ·Ö²¼Êı¾İµã ref:https://wenku.baidu.com/view/2a4bda55f142336c1eb91a37f111f18583d00cd8.html?_wkts_=1688288190053&bdQuery=%E5%9C%A8%E4%B8%80%E4%B8%AA%E7%90%83%E5%86%85%E5%9D%87%E5%8C%80%E5%88%86%E5%B8%83%E7%9A%84%E7%82%B9+matlab
     angle1 = rand(1,canopy_para(5,i))*2*pi;
     angle2 = acos(rand(1,canopy_para(5,i))*2-1);
@@ -79,6 +79,7 @@ for i=1:size_crown(2) % Ñ­»·Ã¿¸öÊ÷¹Ú 2ÊÇÁĞµÄ´óĞ¡
 
     pos = [canopy_para(2,i),canopy_para(3,i),0]; % ¶ÁÈëµÄµÚi¿ÃÊ÷Ê÷¹ÚÖĞĞÄÔÚÑùµØÖĞµÄxyz×ø±ê
     tree_pos = leaf_position_tree_pos(sn,pos,edge); % Ã¿¿ÃÊ÷Ê÷¸ùÔÚÆÂÃæÉÏµÄxyz×ø±ê
+    pCorner = squareCorner(sn,edge);% ÆÂÃæÖĞĞÄ¹ı(0,0,0)Ê±ÑùµØ4½ÇµãµÄxyz×ø±ê
     lc=[x',y',z']; % crown_leaf_center(canopy_para(5,i),canopy_para(6,i),canopy_para(7,i),canopy_para(8,i),canopy_para(9,i),canopy_para(4,i)); % µÚi¿ÃÊ÷ËùÓĞÒ¶Æ¬ÒÔ[0,0,0]Îª±ê×¼µÄÒ¶Æ¬Î»ÖÃ
     lc_new=[lc(:,1)+tree_pos(:,1) lc(:,2)+tree_pos(:,2) lc(:,3)+tree_pos(:,3)+canopy_para(7,i)+0.5*canopy_para(8,i)];
     center=[center;lc_new]; % °ÑÒ»¿ÃÊ÷ËùÓĞÒ¶Æ¬ÖĞĞÄµã×ø±ê¼Óµ½¹Ú²ãÖĞ ½«Ã¿¿ÃÊ÷Ò¶Æ¬µÄÏà¶Ô×ø±êlcÓëÊ÷¸ùµÄ×ø±êÏà¼Ó µÃµ½Ã¿¸öÒ¶Æ¬µÄ¾ø¶Ô×ø±êlc_new È»ºó½«ËüÃÇÌí¼Óµ½centerÖĞ
@@ -88,11 +89,16 @@ end
 % axis equal
 % grid on
 
-%% ÕÒµ½¹Ú²ãÖĞ×î¸ßµÄÒ»¿ÃÊ÷µÄ¸ß¶È
+% ÕÒµ½¹Ú²ãÖĞ×î¸ßµÄÒ»¿ÃÊ÷µÄ¸ß¶È
 maxH=max(canopy_para(7,:)+canopy_para(8,:));
 
-%% ÕÒµ½¹Ú²ãÖĞ×îµÍµÄÖ¦ÏÂ¸ß
+% ÕÒµ½¹Ú²ãÖĞ×îµÍµÄÖ¦ÏÂ¸ß
 minH=min(canopy_para(7,:));
 
-%% ±£´æ½á¹û!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-save('crown_L3_leafmat.mat','center','maxH','minH','shadow','square');
+% ±£´æ½á¹û
+save('.\forestModel\crown_L3_leafmat.mat','center','maxH','minH','shadow','square','pCorner','edge');
+
+center;
+pCorner;
+edge;
+end

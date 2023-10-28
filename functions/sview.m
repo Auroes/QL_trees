@@ -2,9 +2,7 @@
 % 求方向向量,可批量处理
 
 function sv = sview(szap,sazi)
-
 % sv       方向向量
-
 % szap     天顶角 (角度)
 % sazi     方位角 (角度在[0,360))
 
