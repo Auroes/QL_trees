@@ -12,9 +12,5 @@ classdef Lucem < handle
             obj.O = O;
             obj.D = D;
         end
-        
-        function [] = getCoordinate(t) % 获取t时间后的坐标
-            O+D*t;
-        end
     end
 end

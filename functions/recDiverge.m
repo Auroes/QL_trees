@@ -2,7 +2,7 @@
 function unitData = recDiverge(lucem,leaf_r,maxN,center,diverN,nnr,indexDeep)
 
     % 碰撞检测 返回是否碰撞 碰撞坐标
-    [ture,newO] = Hit(lucem,leaf_r,maxN,center,diverN,nnr);
+    [ture,newO] = Hit(lucem,leaf_r,center,nnr);
 
     % 未发生碰撞  返回深度为1的unitData
     if  ture == 0
