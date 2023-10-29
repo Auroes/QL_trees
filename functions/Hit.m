@@ -1,7 +1,7 @@
-%HIT
-function [skyN,hitN]  = Hit(lucem,center,leaf_r,maxN)
+%HIT 碰撞检测函数
+function [ture,newO]  = Hit(lucem,center,leaf_r,maxN)
 
-skyN;
-hitN;
+ture;
+newO;
 end
 

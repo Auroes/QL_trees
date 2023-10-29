@@ -1,6 +1,6 @@
-% Monte-Carlo ray tracing:sub-function 20230526 by Fan
+% Monte-Carlo ray tracing:sub-function
 % 产生叶片的角度数据
-function [f_theta_L, nnr]=leaf_angle(f_theta,num)
+function [f_theta_L, nnr] = leaf_angle(f_theta,num)
 
 % f_theta_L            以1度为间隔，某种类型叶倾角分布在具体某个叶倾角上的实际概率 (%)
 % nnr                  叶片中心点法向量
@@ -25,20 +25,20 @@ end
 if f_theta==5
     f_theta_L(1,:)=2/pi*(theta_L*pi/180); % 累计概率密度分布
 end
-if f_theta==6 % 20211226
+if f_theta==6
     readdata=strcat('.\Model_input\leafangledistributionacc.mat'); % 读入文件
     pp = load(readdata);
     f_theta_L=pp.leafangledistribution;
 end
 
 % 将累计概率密度分布转换成某种类型叶倾角分布在具体某个叶倾角上的实际概率,即概率分布的离散化
-tp=[0,f_theta_L]; % 20221221
+tp=[0,f_theta_L];
 for i=2:92 % 以1度为间隔，某种类型叶倾角分布在具体某个叶倾角上的实际概率
     f_theta_L(1,i)=tp(:,i)-tp(:,i-1);
 end
-f_theta_L=f_theta_L(2:end); % 20221221
+f_theta_L=f_theta_L(2:end);
 
-%% 叶片中心点法向量 20211221
+%% 叶片中心点法向量
 % 叶片天顶角分配 20220126
 nnr_zenith_num=fix(num.*f_theta_L); % 0-90度叶倾角各自的叶片数量
 num_rest=num-sum(nnr_zenith_num); % 取整后剩余的叶片数量
@@ -54,9 +54,9 @@ for i=0:90 % 循环角度给每个叶片赋叶倾角和方位角,角度
     if nnr_zenith_num(i+1)~=0
         nnr_azimuth=[nnr_azimuth; tmp']; % 给每个叶片赋方位角,角度
     end
-    size_tmp=size(tmp); % 20220126
-    dif=nnr_zenith_num(i+1)-size_tmp(2); % 方位角不能恰好匹配的情况 20220126
-    if dif>0 % 20220126
+    size_tmp=size(tmp);
+    dif=nnr_zenith_num(i+1)-size_tmp(2); % 方位角不能恰好匹配的情况
+    if dif>0
         nnr_azimuth=[nnr_azimuth; zeros(dif,1)+359.5];
     end
 end
@@ -65,5 +65,5 @@ end
 %     nnr(i,:)=-sview(nnr_zenith(i,:),nnr_azimuth(i,:)); % 用计算太阳法向量的代码，根据角度计算法向量
 % end
 
-nnr=-sview(nnr_zenith,nnr_azimuth); % 用计算太阳法向量的代码，根据角度计算法向量
+nnr = -sview(nnr_zenith,nnr_azimuth); % 用计算太阳法向量的代码，根据角度计算法向量
 

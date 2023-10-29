@@ -1,7 +1,7 @@
 % 根据树冠位置产生样方(含坡面)所有树的叶片位置
 % [center,maxH,minH,shadow,square]=leaf_position(0,0,'canopy_L9.mat');
 
-function [center,pCorner,edge] = leaf_position(za,zi,canopy_para) % 输入 坡面坡度 坡度的方位角 样地中每株树的参数矩阵的文件名
+function [center,edge,nnr] = leaf_position(za,zi,canopy_para,f_theta) % 输入 坡面坡度 坡度的方位角 样地中每株树的参数矩阵的文件名
 
 % center      冠层中每个叶片的中心坐标，输出时以(0,0)为样地的xy坐标中心
 % maxH        冠层中最高的一棵树的高度
@@ -83,6 +83,7 @@ for i=1:size_crown(2) % 循环每个树冠 2是列的大小
     lc=[x',y',z']; % crown_leaf_center(canopy_para(5,i),canopy_para(6,i),canopy_para(7,i),canopy_para(8,i),canopy_para(9,i),canopy_para(4,i)); % 第i棵树所有叶片以[0,0,0]为标准的叶片位置
     lc_new=[lc(:,1)+tree_pos(:,1) lc(:,2)+tree_pos(:,2) lc(:,3)+tree_pos(:,3)+canopy_para(7,i)+0.5*canopy_para(8,i)];
     center=[center;lc_new]; % 把一棵树所有叶片中心点坐标加到冠层中 将每棵树叶片的相对坐标lc与树根的坐标相加 得到每个叶片的绝对坐标lc_new 然后将它们添加到center中
+    [f_theta_L, nnr] = leaf_angle(f_theta,num);
 end
 
 % plot3(coord(:,1),coord(:,2),coord(:,3),'ko')
@@ -96,9 +97,9 @@ maxH=max(canopy_para(7,:)+canopy_para(8,:));
 minH=min(canopy_para(7,:));
 
 % 保存结果
-save('.\forestModel\crown_L3_leafmat.mat','center','maxH','minH','shadow','square','pCorner','edge');
+save('.\forestModel\crown_L3_leafmat.mat','center','maxH','minH','shadow','square','pCorner','edge','f_theta_L');
 
 center;
-pCorner;
 edge;
+nnr;
 end
