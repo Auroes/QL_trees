@@ -8,6 +8,7 @@ function answer42 = QL_trees_main(za,zi,canopy_para,leaf_r,dense,D,maxN,diverN,f
     
     % 中间数组 每行 对应深度 列1为碰撞总数hitN 列2为光线总数lucemN
     hitN_lucemN = zeros(maxN, 3);
+    unitData = zeros(maxN,1);
     % 结果数组 储存答案
     answer42 = zeros(maxN, 2);
 
@@ -19,7 +20,8 @@ function answer42 = QL_trees_main(za,zi,canopy_para,leaf_r,dense,D,maxN,diverN,f
             % 按光线密度为步长遍历生成光线
             lucem = Lucem([j,i,1000],D);
             % 对于每条(i,j)位置发射的光线 返回 每一深度 碰撞光线数量 的数组unitData
-            unitData = recDiverge(lucem,leaf_r,maxN,center,diverN,nnr,indexDeep);
+            unitData = recDiverge(lucem,leaf_r,maxN,center,diverN,nnr,indexDeep,unitData);
+            
 
             % 遍历unitData数组的每一深度k 添加总数到中间数组
             for k = 1:maxN
