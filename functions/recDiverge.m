@@ -1,5 +1,6 @@
 %recDiverge 发散递归函数
 function unitData = recDiverge(lucem,leaf_r,maxN,center,diverN,nnr,indexDeep)
+    unitData = zeros(maxN,1 );
 
     % 碰撞检测 返回是否碰撞 碰撞坐标
     [ture,newO] = Hit(lucem,leaf_r,center,nnr);
@@ -17,6 +18,7 @@ function unitData = recDiverge(lucem,leaf_r,maxN,center,diverN,nnr,indexDeep)
             % 如果下一深度为最大深度 无需再对8条子光线碰撞检测 直接返回
             if indexDeep == maxN
                 unitData;
+                return;
             end
 
         % 生成8条子光线

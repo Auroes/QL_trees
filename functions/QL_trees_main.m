@@ -7,9 +7,9 @@ function answer42 = QL_trees_main(za,zi,canopy_para,leaf_r,dense,D,maxN,diverN,f
     [center,edge,nnr] = leaf_position(za,zi,canopy_para,f_theta); % 导出叶坐标 样地尺寸 叶法向量
     
     % 中间数组 每行 对应深度 列1为碰撞总数hitN 列2为光线总数lucemN
-    hitN_lucemN = [];
+    hitN_lucemN = zeros(maxN, 3);
     % 结果数组 储存答案
-    answer42 = [];
+    answer42 = zeros(maxN, 2);
 
     % 光线追踪
     for i = edge/2 :-dense :-edge/2
@@ -17,7 +17,7 @@ function answer42 = QL_trees_main(za,zi,canopy_para,leaf_r,dense,D,maxN,diverN,f
             % 递归函数的深度指针 % 对于每条初始光线 将指针重置为1
             indexDeep = 1;
             % 按光线密度为步长遍历生成光线
-            lucem = Lucem([j,i],D);
+            lucem = Lucem([j,i,1000],D);
             % 对于每条(i,j)位置发射的光线 返回 每一深度 碰撞光线数量 的数组unitData
             unitData = recDiverge(lucem,leaf_r,maxN,center,diverN,nnr,indexDeep);
 
@@ -41,7 +41,7 @@ function answer42 = QL_trees_main(za,zi,canopy_para,leaf_r,dense,D,maxN,diverN,f
     
     for m = 1:maxN
         answer42(m,1) = m;
-        answer42(m,2) = hitN_lucemN(m,1)/hitN_lucemN(m/2);
+        answer42(m,2) = hitN_lucemN(m,1)/hitN_lucemN(m,2);
     end
 
     % 返回结果数组 列1为深度n∈[1,maxN] 列2为频数P∈(0,1)

@@ -5,16 +5,17 @@ function [ture,newO]  = Hit(lucem,leaf_r,center,nnr)
     matrixSize = size(center);
     % 距离指针
     indexT = inf; % 初始碰撞点距离光源点无穷远
+    hitPoint = zeros(1, 3);
 
     for i = 1 : matrixSize(2)
         % 叶片平面 光线方程量
         A0 = center(i,1);
         B0 = center(i,2);
         C0 = center(i,3);
-        A = nnr(i,1);
-        B = nnr(i,2);
-        C = nnr(i,3);
-        D = -(A*A0 + B*B0 + C*C0);
+        A  = nnr(i,1);
+        B  = nnr(i,2);
+        C  = nnr(i,3);
+        D  = -(A*A0 + B*B0 + C*C0);
         P0 = lucem.O; % 光线原点
         V  = lucem.D; % 光线方向向量
 
@@ -27,7 +28,7 @@ function [ture,newO]  = Hit(lucem,leaf_r,center,nnr)
                 ture = 0; % 叶片在光线反向 不发生碰撞
             else
             hitPoint = P0 + V*t; % 碰撞点坐标
-            distance = sqrt((Bx - Ax)^2 + (By - Ay)^2 + (Bz - Az)^2); % 碰撞点到叶心的距离
+            distance = sqrt((P0(1) - hitPoint(1))^2 + (P0(2) - hitPoint(2))^2 + (P0(3) - hitPoint(3))^2); % 碰撞点到叶心的距离
                 if distance > leaf_r
                     ture = 0; % 叶片在光线之外 不发生碰撞
                 else % 发生碰撞
