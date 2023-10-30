@@ -5,7 +5,7 @@ function [x,newO]  = Hit(lucem,leaf_r,center,nnr)
     hitPoint = zeros(1, 3); % 记录最近的碰撞点
     newO = zeros(1, 3); % 返回的新反射点
 
-    for i = 1 :size(center, 2)
+    for i = 1 :size(center,1)
         % 叶片平面
         A0 = center(i,1);
         B0 = center(i,2);
@@ -13,7 +13,6 @@ function [x,newO]  = Hit(lucem,leaf_r,center,nnr)
         A  = nnr(i,1);
         B  = nnr(i,2);
         C  = nnr(i,3);
-        D  = -(A*A0 + B*B0 + C*C0);
         % 光线方程
         P0 = lucem.O; % 光线原点
         V  = lucem.D; % 光线方向向量
@@ -27,24 +26,18 @@ function [x,newO]  = Hit(lucem,leaf_r,center,nnr)
             else % 光线碰撞叶所在平面
                 hitPoint = P0 + V*t; % 碰撞点坐标
                 distance = sqrt((A0 - hitPoint(1))^2 + (B0 - hitPoint(2))^2 + (C0 - hitPoint(3))^2); % 碰撞点到叶心的距离
-                
                 if distance > leaf_r % 叶片在光线之外 不发生碰撞
-                    %disp(leaf_r);
-                    %disp(distance);
                     continue;
-                elseif distance < indexT % 筛选更近的碰撞叶片  % 光线真的碰撞叶片了！
-                        indexT = distance; % 距离指针置为光源点到本次碰撞点距离
+                elseif t < 0.000001 % 舍去过于靠近的值 避免穿模
+                    continue;
+                elseif t >= indexT % 筛选更近的碰撞叶片
+                    continue;
+                else   % 光线真的碰撞叶片了！
+                        indexT = t; % 距离指针置为光源点到本次碰撞点距离
                         x = 1; % 发生碰撞
-                        %disp(x);
                         newO = hitPoint; % 返回距离光源最近的碰撞点坐标
-                        %disp(hitPoint);
-                        %disp(distance);
-                    
                 end
             end
         end
     end
-    x;
-    %disp(x);
-    newO;
 end

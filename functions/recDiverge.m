@@ -5,7 +5,7 @@ function unitData = recDiverge(lucem,leaf_r,maxN,center,diverN,nnr,indexDeep,uni
     [x,newO] = Hit(lucem,leaf_r,center,nnr);
 
     % 未发生碰撞  返回深度为1的unitData
-    if  x ~= 1
+    if  x == 0
         unitData(indexDeep,1) = unitData(indexDeep,1) + 0;
 
     % 发生碰撞 发散光线数为8
